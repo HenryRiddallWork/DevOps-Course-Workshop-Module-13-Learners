@@ -5,8 +5,10 @@ from pytz import utc, timezone
 
 local_timezone = timezone("Europe/London")
 
-COMPLETE = 'Complete'
-QUEUED = 'Queued'
+COMPLETE = "Complete"
+QUEUED = "Queued"
+FAILED = "Failed"
+
 
 class Order(db.Model):
     __tablename__ = "orders"
@@ -23,7 +25,7 @@ class Order(db.Model):
         self.customer = customer
         self.date_placed = date_placed
         self.date_processed = date_processed
-        self.status = 'Complete' if self.date_processed else 'Queued'
+        self.status = "Complete" if self.date_processed else "Queued"
         self.download = download
 
     def __repr__(self):
@@ -40,3 +42,7 @@ class Order(db.Model):
     def set_as_processed(self):
         self.date_processed = datetime.now(tz=utc)
         self.status = COMPLETE
+
+    def set_as_failed(self):
+        self.date_processed = datetime.now(tz=utc)
+        self.status = FAILED
