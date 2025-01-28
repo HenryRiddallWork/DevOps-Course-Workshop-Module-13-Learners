@@ -7,7 +7,6 @@ local_timezone = timezone("Europe/London")
 
 COMPLETE = "Complete"
 QUEUED = "Queued"
-FAILED = "Failed"
 
 
 class Order(db.Model):
@@ -43,6 +42,12 @@ class Order(db.Model):
         self.date_processed = datetime.now(tz=utc)
         self.status = COMPLETE
 
-    def set_as_failed(self):
-        self.date_processed = datetime.now(tz=utc)
-        self.status = FAILED
+    def fail(self):
+        if self.status == "Queued":
+            self.status = "Retry1"
+        elif self.status == "Retry1":
+            self.status = "Retry2"
+        elif self.status == "Retry2":
+            self.status = "Retry3"
+        else:
+            self.status = "Failed"

@@ -76,6 +76,10 @@
             <p>Product: <b>{{ order.product }}</b></p>
             <p>Placed: <b>{{ order.date_placed_local.strftime('%d/%m/%Y %H:%M:%S') }}</b></p>
             <p>Processed: <b>{{ order.date_processed_local.strftime('%d/%m/%Y %H:%M:%S') if order.date_processed else None}}</b></p>
+            {% if order.status == 'Retry1' %} <p>Retries: <b></b>1</b></p>
+            {% elif order.status == 'Retry2' %} <p>Retries: <b></b>2</b></p>
+            {% elif order.status == 'Retry3' %} <p>Retries: <b></b>3</b></p>
+            {% endif %}
           </li>
           {% endfor %}
         </ul>
